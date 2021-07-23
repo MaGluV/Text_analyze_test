@@ -18,12 +18,12 @@ def breadth_first_search(graph, start_vertex):
 		
 
 def read_onotolgy(ontology_path, categories):
-	ontology_data_list = []
+	ontology_data_dict = {}
 	with open(ontology_path) as ontology:
 		data = csv.reader(ontology, delimiter = '\t')
 		ontology_graph = {}
 		for line in data:
-			ontology_data_list.append(line)
+			ontology_data_dict[line[0]] = line
 			if line[2] not in ontology_graph.keys():
 				ontology_graph[line[2]] = [line[0]]
 			else:
@@ -38,9 +38,9 @@ def read_onotolgy(ontology_path, categories):
 	result = []
 	for term_id in vertices:
 		result_dictionary = {
-			"id" : ontology_data_list[int(term_id)][0],
-			"term" : ontology_data_list[int(term_id)][1],
-			"category" : ontology_data_list[int(term_id)][2]}
+			"id" : ontology_data_dict[term_id][0],
+			"term" : ontology_data_dict[term_id][1],
+			"category" : ontology_data_dict[term_id][2]}
 		result.append(result_dictionary)
 		
 	return result
@@ -84,7 +84,7 @@ def calculate_stat(text_paths, categories_info):
 	return result
 		
 if __name__ == '__main__':
-	categories_info = read_onotolgy("./test_data/ontology.csv", [2,4])
+	categories_info = read_onotolgy("./test_data/ontology.csv", [2,3])
 	print("categories_info")
 	for line in categories_info:
 		print(line)
